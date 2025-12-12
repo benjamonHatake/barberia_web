@@ -25,7 +25,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'agenda', 
+    'agenda',
+    'tailwind',
+    'theme',
+    'crispy_forms',
+    'crispy_tailwind', 
+
 ]
 
 MIDDLEWARE = [
@@ -109,3 +114,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+TAILWIND_APP_NAME = 'theme'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
