@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'crispy_forms',
-    'crispy_tailwind', 
+    'crispy_tailwind',
+    'widget_tweaks',
 
 ]
 
