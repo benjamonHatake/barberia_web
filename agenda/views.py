@@ -5,6 +5,9 @@ from .models import Cita, Horario, Servicio
 from datetime import time
 from django.http import JsonResponse
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 #--------------------------------------------------------
 
