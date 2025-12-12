@@ -5,11 +5,93 @@
 {% block content %}
 <h2 class="text-2xl font-bold mb-4">Agendar Cita</h2>
 
+<!-- Mensaje de éxito o error -->
+{% if messages %}
+<div id="mensaje-formulario" class="mb-6">
+    {% for message in messages %}
+        <div class="p-4 rounded shadow text-white
+            {% if message.tags == 'success' %} bg-green-500 {% elif message.tags == 'error' %} bg-red-500 {% else %} bg-gray-500 {% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <form method="post" class="bg-white p-6 rounded shadow space-y-4">
     {% csrf_token %}
-    {{ form.as_p }}
+    
+    <!-- Nombre del cliente -->
+    <div>
+        <label class="font-semibold">Nombre</label>
+        {{ form.nombre_cliente }}
+    </div>
+
+    <!-- Teléfono -->
+    <div>
+        <label class="font-semibold">Teléfono</label>
+        {{ form.telefono }}
+    </div>
+
+    <!-- Servicio -->
+    <div>
+        <label class="font-semibold">Servicio</label>
+        {{ form.servicio }}
+    </div>
+
+    <!-- Fecha -->
+    <div>
+        <label class="font-semibold">Fecha</label>
+        {{ form.fecha }}
+    </div>
+
+    <!-- Hora disponible -->
+    <div>
+        <label class="font-semibold">Hora</label>
+        <select id="horas-disponibles" name="hora" class="border rounded p-2 w-full">
+            <option value="">Seleccione una fecha primero...</option>
+        </select>
+    </div>
+
     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
         Reservar
     </button>
 </form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Mensaje desaparece después de 4 segundos
+    const mensaje = document.getElementById("mensaje-formulario");
+    if (mensaje) {
+        setTimeout(() => {
+            mensaje.classList.add("opacity-0", "transition", "duration-500");
+            setTimeout(() => mensaje.remove(), 500);
+        }, 4000);
+    }
+
+    // Selección de horas
+    const fechaInput = document.querySelector("#id_fecha");
+    const selectHoras = document.querySelector("#horas-disponibles");
+
+    fechaInput.addEventListener("change", function () {
+        const fecha = this.value;
+
+        fetch(`/api/horas-disponibles/?fecha=${fecha}`)
+            .then(response => response.json())
+            .then(data => {
+                selectHoras.innerHTML = "";
+
+                if (data.horarios.length === 0) {
+                    selectHoras.innerHTML = `<option value="">No hay horas disponibles</option>`;
+                    return;
+                }
+
+                data.horarios.forEach(hora => {
+                    selectHoras.innerHTML += `<option value="${hora}">${hora}</option>`;
+                });
+            });
+    });
+});
+</script>
+
 {% endblock %}

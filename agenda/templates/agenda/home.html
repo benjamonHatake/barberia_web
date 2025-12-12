@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbería Joakillo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- HERO -->
+    <section class="relative h-screen flex items-center justify-center bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1519744792095-2f2205e87b6f');">
+        <div class="bg-black bg-opacity-60 absolute inset-0"></div>
+
+        <div class="relative z-10 text-center text-white px-4">
+            <h1 class="text-5xl font-bold mb-4 drop-shadow-lg">Barbería Joakillo</h1>
+            <p class="text-xl mb-8 drop-shadow-lg">Estilo que habla por ti</p>
+            
+            <a href="/agendar/"
+               class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-8 py-3 rounded-full text-lg transition">
+                Reservar ahora
+            </a>
+        </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section class="py-16 px-6 max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12">Nuestros Servicios</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            {% for s in servicios %}
+            <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition border border-gray-100">
+                <h3 class="text-xl font-semibold mb-2">{{ s.nombre }}</h3>
+                <p class="text-gray-600 mb-4">${{ s.precio }}</p>
+                <a href="/agendar/"
+                   class="block mt-4 bg-black text-white text-center py-2 rounded-lg hover:bg-gray-900 transition">
+                    Reservar
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <!-- HORARIOS -->
+    <section class="bg-gray-900 text-white py-16 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6">Horarios de Atención</h2>
+            <p class="text-lg">Lunes a Sábado: <strong>10:00 - 20:00</strong></p>
+            <p class="text-lg">Domingo: <strong>Cerrado</strong></p>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="py-16 px-6 max-w-5xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-10">Contáctanos</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+            <div class="space-y-3 text-lg">
+                <p><strong>Dirección:</strong> Tu dirección aquí</p>
+                <p><strong>WhatsApp:</strong> +56 9 XXXXXXXX</p>
+                
+                <a href="https://wa.me/56912345678"
+                   class="inline-block bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg transition">
+                    Abrir WhatsApp
+                </a>
+            </div>
+
+            <!-- MAPA -->
+            <iframe 
+                src="https://maps.google.com/maps?q=Santiago%20Chile&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                class="w-full h-64 rounded-lg shadow-lg">
+            </iframe>
+
+        </div>
+    </section>
+
+</body>
+</html>

@@ -2,10 +2,11 @@ from django.db import models
 
 class Servicio(models.Model):
     nombre = models.CharField(max_length=100)
-    precio = models.PositiveIntegerField()
+    precio = models.IntegerField()
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} - ${self.precio}"
+
 
 class Horario(models.Model):
     hora = models.TimeField(unique=True)
