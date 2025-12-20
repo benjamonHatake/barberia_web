@@ -4,9 +4,14 @@
 {% block title %}Agendar Cita{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-8">
+<div class="max-w-xl mx-auto mt-16 bg-gray-800 p-8 rounded-2xl shadow-2xl">
 
-    <h2 class="text-3xl font-bold mb-6 text-center">Agendar Cita</h2>
+    <h2 class="text-3xl font-bold text-center mb-6">
+        Agenda tu cita ✂️
+    </h2>
+    <p class="text-center text-gray-400 mb-8">
+                Completa tus datos y reserva tu hora
+    </p>
 
     {% if messages %}
         {% for message in messages %}
@@ -27,39 +32,43 @@
 
         <div>
             <label class="font-semibold">Nombre</label>
-            {{ form.nombre_cliente|add_class:"border rounded p-3 w-full" }}
+            {{ form.nombre_cliente|add_class:"w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500" }}
         </div>
 
         <div>
             <label class="font-semibold">Teléfono</label>
-            {{ form.telefono|add_class:"border rounded p-3 w-full" }}
+            {{ form.telefono|add_class:"w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500" }}
         </div>
 
         <div>
             <label class="font-semibold">Servicio</label>
-            {{ form.servicio|add_class:"border rounded p-3 w-full" }}
+            {{ form.servicio|add_class:"w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500" }}
         </div>
 
         <div>
             <label class="font-semibold">Fecha</label>
-            {{ form.fecha|add_class:"border rounded p-3 w-full" }}
+            {{ form.fecha|add_class:"w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500" }}
         </div>
 
         <div>
             <label class="font-semibold">Hora</label>
-            <select id="horas-disponibles" name="hora" class="border rounded p-3 w-full">
+            <select id="horas-disponibles" name="hora" class="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
                 <option value="">Seleccione una fecha primero...</option>
             </select>
         </div>
 
         <div class="flex justify-between items-center">
-            <a href="/" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded font-semibold">
-                &#8592; Volver al Home
+            <a href="{% url 'home' %}" class="block text-center mt-4 text-gray-400 hover:text-white transition">
+                ← Volver al inicio
             </a>
 
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded">
-                Reservar
+
+            <button type="submit"
+                class="w-full mt-6 border border-gray-300 hover:bg-gray-100 hover:text-gray-900
+                        text-gray-100 font-semibold py-3 rounded-xl transition duration-300">
+                        Confirmar Reserva
             </button>
+
         </div>
     </form>
 </div>
