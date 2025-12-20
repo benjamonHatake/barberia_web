@@ -18,24 +18,21 @@ def reservar(request):
 
 #--------------------------------------------------------
 
-from django.http import JsonResponse
-from .models import Cita, Horario
-
 def horarios_disponibles(request):
     fecha = request.GET.get('fecha')
 
     if not fecha:
         return JsonResponse({'horarios': []})
 
-    # 1. Obtener horarios desde la base de datos (ADMIN)
+    # Obtener horarios desde la base de datos (ADMIN)
     horarios = Horario.objects.all().order_by('hora')
     HORARIOS = [h.hora.strftime("%H:%M") for h in horarios]
 
-    # 2. Obtener horarios ya reservados ese día
+    # Obtener horarios ya reservados ese día
     citas = Cita.objects.filter(fecha=fecha).values_list('hora__hora', flat=True)
     ocupados = [c.strftime("%H:%M") for c in citas]
 
-    # 3. Crear lista de horarios disponibles
+    # Crear lista de horarios disponibles
     disponibles = [h for h in HORARIOS if h not in ocupados]
 
     return JsonResponse({'horarios': disponibles})
@@ -62,29 +59,46 @@ def lista_horarios(request):
 
 
 def agendar_cita(request):
-    form = CitaForm(request.POST or None)
-
     if request.method == 'POST':
         data = request.POST.copy()
+
         hora_seleccionada = data.get("hora")
 
         try:
             hora_obj = Horario.objects.get(hora=hora_seleccionada)
         except Horario.DoesNotExist:
             messages.error(request, "La hora seleccionada no existe.")
-            return render(request, "agenda/agendar.html", {"form": form})
+            return redirect('agendar_cita')
 
         data["hora"] = hora_obj.id
         form = CitaForm(data)
 
         if form.is_valid():
-            form.save()
+            cita = form.save()
+
+            send_mail(
+                subject='📅 Nueva cita agendada',
+                message=f"""
+Se ha agendado una nueva cita:
+
+Nombre: {cita.nombre_cliente}
+Teléfono: {cita.telefono}
+Servicio: {cita.servicio}
+Fecha: {cita.fecha}
+Hora: {cita.hora}
+""",
+                from_email=None,
+                recipient_list=['benjajamin17@gmail.com'],
+                fail_silently=False,
+            )
+
             messages.success(request, "¡Tu cita fue reservada con éxito! 😎✂️")
-            form = CitaForm()  # Limpiar formulario después de guardar
+            return redirect('home')
+
         else:
-            messages.error(request, "Hubo un error al procesar tu reserva. Revisa los campos.")
+            messages.error(request, "Formulario inválido.")
+
+    else:
+        form = CitaForm()
 
     return render(request, "agenda/agendar.html", {"form": form})
-
-
-#--------------------------------------------------------

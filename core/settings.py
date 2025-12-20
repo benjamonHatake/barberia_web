@@ -127,3 +127,16 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
+
+# Configuración correo
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'benjajamin17@gmail.com'
+EMAIL_HOST_PASSWORD = 'zait mizx tdrx szpu'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+

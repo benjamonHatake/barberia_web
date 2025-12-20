@@ -11,14 +11,45 @@
 <body class="bg-gray-50 text-gray-800">
 
     <!-- NAV -->
-    <nav class="bg-white shadow p-4">
+    <nav class="bg-white shadow p-4 relative z-40">
         <h1 class="text-2xl font-bold">Joakillo BarberShop</h1>
     </nav>
+
+    <!-- MENSAJES -->
+    {% if messages %}
+    <div id="flash-message"
+         class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-xl px-4">
+        {% for message in messages %}
+            <div class="p-4 rounded-xl shadow-lg text-center font-semibold
+                {% if message.tags == 'success' %}
+                    bg-green-500 text-white
+                {% elif message.tags == 'error' %}
+                    bg-red-500 text-white
+                {% else %}
+                    bg-gray-800 text-white
+                {% endif %}
+            ">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <!-- CONTENIDO -->
     <main class="container mx-auto p-6">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- AUTO OCULTAR MENSAJE -->
+    <script>
+        setTimeout(() => {
+            const msg = document.getElementById('flash-message');
+            if (msg) {
+                msg.classList.add('opacity-0', 'transition', 'duration-500');
+                setTimeout(() => msg.remove(), 500);
+            }
+        }, 4000);
+    </script>
 
 </body>
 </html>
