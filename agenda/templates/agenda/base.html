@@ -17,23 +17,29 @@
 
     <!-- MENSAJES -->
     {% if messages %}
-    <div id="flash-message"
-         class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-xl px-4">
-        {% for message in messages %}
-            <div class="p-4 rounded-xl shadow-lg text-center font-semibold
-                {% if message.tags == 'success' %}
-                    bg-green-500 text-white
-                {% elif message.tags == 'error' %}
-                    bg-red-500 text-white
-                {% else %}
-                    bg-gray-800 text-white
-                {% endif %}
-            ">
-                {{ message }}
+    <div id="overlay-message"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+
+            {% for message in messages %}
+            <div id="bubble"
+                 class="bg-white rounded-3xl shadow-2xl p-10 text-center max-w-md mx-6
+                    transform scale-75 opacity-0 transition-all duration-700 ease-out">
+
+                <div class="text-4xl mb-4">✂️</div>
+
+                <h2 class="text-2xl font-bold mb-3 text-gray-800">
+                    ¡Cita agendada!
+                </h2>
+
+                <p class="text-gray-600 text-lg">
+                 {{ message }}
+                </p>
+
             </div>
-        {% endfor %}
+            {% endfor %}
     </div>
     {% endif %}
+
 
     <!-- CONTENIDO -->
     <main class="container mx-auto p-6">
@@ -50,6 +56,33 @@
             }
         }, 4000);
     </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const bubble = document.getElementById("bubble");
+        const overlay = document.getElementById("overlay-message");
+
+        if (bubble && overlay) {
+            // Animación de entrada
+            setTimeout(() => {
+                bubble.classList.remove("scale-75", "opacity-0");
+                bubble.classList.add("scale-100", "opacity-100");
+            }, 100);
+
+            // Animación de salida
+            setTimeout(() => {
+                bubble.classList.add("scale-90", "opacity-0");
+                overlay.classList.add("opacity-0", "transition", "duration-700");
+            }, 3500);
+
+            // Eliminar del DOM
+            setTimeout(() => {
+                overlay.remove();
+            }, 4200);
+        }
+    });
+</script>
+
 
 </body>
 </html>
